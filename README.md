@@ -24,7 +24,7 @@ This project deploys a comprehensive defensive lab environment to execute contro
 * `/docs` - Architecture diagrams and project specifications.
 
 ## 👥 Contributors
-* **[Your Name]** - [Role, e.g., Detection Engineer / Project Lead]
+* **[Anas Abdelraouf ]** - [Role, e.g., Detection Engineer / Project Lead]
 * **[Hazem Oraby]** - [Role]
 * **[Alsafy Masoud]** - [Role]
 * **[Yusuf Yasser]** - [Role]
