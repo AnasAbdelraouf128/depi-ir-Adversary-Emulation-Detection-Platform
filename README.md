@@ -25,7 +25,8 @@ This project deploys a comprehensive defensive lab environment to execute contro
 
 ## 👥 Contributors
 * **[Your Name]** - [Role, e.g., Detection Engineer / Project Lead]
-* **[Collaborator 1 Name]** - [Role]
-* **[Collaborator 2 Name]** - [Role]
-* **[Collaborator 3 Name]** - [Role]
-* **[Collaborator 4 Name]** - [Role]
+* **[Hazem Oraby]** - [Role]
+* **[Alsafy Masoud]** - [Role]
+* **[Yusuf Yasser]** - [Role]
+* **[Adham Khattab]** - [Role]
+* **[Abdulrahman Alseady]** - [Role]
