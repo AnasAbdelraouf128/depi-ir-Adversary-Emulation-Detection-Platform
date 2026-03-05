@@ -1,3 +1,50 @@
+# ==========================================
+# Cyber Range & Adversary Emulation .gitignore
+# ==========================================
+
+# 1. Emulation Logs and Captures (CRITICAL)
+# Prevents massive log files or packet captures from filling up the repository
+*.log
+*.pcap
+*.pcapng
+*.evtx
+/logs/
+
+# 2. Secrets and Credentials (CRITICAL)
+# Prevents leaking Wazuh admin passwords, API tokens, or lab access keys
+.env
+*.key
+*.pem
+credentials.txt
+secrets.yml
+
+# 3. Virtual Machines & Infrastructure State
+# If you use Vagrant, Terraform, or Docker for lab deployment
+.vagrant/
+*.tfstate
+*.tfstate.backup
+.terraform/
+
+# 4. Workspace & Note-Taking Configurations
+# Keeps personal editor settings and workspace formatting out of the shared repo
+.vscode/
+.idea/
+.obsidian/
+*.code-workspace
+
+# 5. Scripting & Automation (Python/Bash)
+# Ignores cached files and virtual environments if you write API scripts
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env/
+
+# 6. OS Generated Files
+.DS_Store
+Thumbs.db
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
