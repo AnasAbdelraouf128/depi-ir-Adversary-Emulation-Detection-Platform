@@ -26,7 +26,7 @@ This project deploys a comprehensive defensive lab environment to execute contro
 ## 👥 Contributors
 * **[Anas Abdelraouf ]** - [Role, e.g., Detection Engineer / Project Lead]
 * **[Hazem Oraby]** - [Role]
-* **[Alsafy Masoud]** - [Role]
+* **[Alsafy Hamed]** - [Role]
 * **[Yusuf Yasser]** - [Role]
 * **[Adham Khattab]** - [Role]
 * **[Abdulrahman Alseady]** - [Role]
