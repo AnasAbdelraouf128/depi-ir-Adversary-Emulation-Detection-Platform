@@ -24,9 +24,9 @@ This project deploys a comprehensive defensive lab environment to execute contro
 * `/docs` - Architecture diagrams and project specifications.
 
 ## 👥 Contributors
-* **[Anas Abdelraouf ]** - [Role, e.g., Detection Engineer / Project Lead]
-* **[Hazem Oraby]** - [Role]
-* **[Alsafy Hamed]** - [Role]
-* **[Yusuf Yasser]** - [Role]
-* **[Adham Khattab]** - [Role]
-* **[Abdulrahman Alseady]** - [Role]
+* **[Anas Abdelraouf ]** - [Project Lead & Lead Detection Engineer]
+* **[Hazem Oraby]** - [Adversary Emulation Specialist]
+* **[Alsafy Hamed]** - [SIEM Administrator & Wazuh Architect]
+* **[Yusuf Yasser]** - [SOC Telemetry Analyst & TTP Mapper]
+* **[Adham Khattab]** - [Endpoint Security Specialist]
+* **[Abdulrahman Alseady]** - [Incident Response Documentarian]
