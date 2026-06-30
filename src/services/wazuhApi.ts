@@ -262,7 +262,12 @@ export async function getAllAlerts(): Promise<Alert[]> {
   const hits = await indexerSearch({
     size: 1000,
     sort: [{ "@timestamp": { order: "desc" } }],
-    query: { range: { "@timestamp": { gte: "now-7d/d" } } },
+    query: { 
+      bool: {
+        must: [{ range: { "@timestamp": { gte: "now-7d/d" } } }],
+        must_not: [{ match: { "rule.id": "40704" } }]
+      }
+    },
   });
   return hits.map(mapHit);
 }

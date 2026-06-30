@@ -240,8 +240,8 @@ export function isTruePositive(alert: Alert): boolean {
   // If the heuristic promotes it to high/critical, flag it
   if (cls.severity === "critical" || cls.severity === "high") return true;
   
-  // If we have high confidence it's an attack (e.g. matches known MITRE technique with context hits)
-  if (cls.confidence > 0.70) return true;
+  // If we have high confidence it's an attack and it's at least a medium severity alert
+  if (cls.confidence > 0.85 && alert.rule.level >= 8) return true;
   
   return false;
 }

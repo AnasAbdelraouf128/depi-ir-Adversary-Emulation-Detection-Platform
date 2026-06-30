@@ -30,7 +30,7 @@ export const Route = createFileRoute("/alerts")({
   component: AlertsPage,
 });
 
-const PAGE_SIZE = 15;
+const PAGE_SIZE = 10;
 
 function AlertsPage() {
   const { data: alerts = [] } = useQuery({ queryKey: ["alerts", "all"], queryFn: getAllAlerts });
@@ -42,7 +42,8 @@ function AlertsPage() {
   const [tactics, setTactics] = useState<string[]>([]);
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
-  const [page, setPage] = useState(0);
+  const [pageTp, setPageTp] = useState(0);
+  const [pageFp, setPageFp] = useState(0);
   const [expanded, setExpanded] = useState<string | null>(null);
 
   const filtered = useMemo(() => {
@@ -73,12 +74,16 @@ function AlertsPage() {
   const tps = useMemo(() => filtered.filter(isTruePositive), [filtered]);
   const fps = useMemo(() => filtered.filter(a => !isTruePositive(a)), [filtered]);
 
-  const totalPages = Math.max(1, Math.ceil(fps.length / PAGE_SIZE));
-  const currentFps = fps.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+  const totalPagesTp = Math.max(1, Math.ceil(tps.length / PAGE_SIZE));
+  const currentTps = tps.slice(pageTp * PAGE_SIZE, (pageTp + 1) * PAGE_SIZE);
+
+  const totalPagesFp = Math.max(1, Math.ceil(fps.length / PAGE_SIZE));
+  const currentFps = fps.slice(pageFp * PAGE_SIZE, (pageFp + 1) * PAGE_SIZE);
 
   function toggle<T>(arr: T[], v: T, set: (next: T[]) => void) {
     set(arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v]);
-    setPage(0);
+    setPageTp(0);
+    setPageFp(0);
   }
 
   const hasFilters =
@@ -102,7 +107,8 @@ function AlertsPage() {
                 value={search}
                 onChange={(e) => {
                   setSearch(e.target.value);
-                  setPage(0);
+                  setPageTp(0);
+                  setPageFp(0);
                 }}
                 placeholder="Search description, agent, MITRE ID, IP…"
                 className="pl-9"
@@ -113,7 +119,8 @@ function AlertsPage() {
                 value={from}
                 onChange={(v) => {
                   setFrom(v);
-                  setPage(0);
+                  setPageTp(0);
+                  setPageFp(0);
                 }}
                 placeholder="From"
               />
@@ -123,7 +130,8 @@ function AlertsPage() {
                 value={to}
                 onChange={(v) => {
                   setTo(v);
-                  setPage(0);
+                  setPageTp(0);
+                  setPageFp(0);
                 }}
                 placeholder="To"
               />
@@ -139,7 +147,8 @@ function AlertsPage() {
                   setTactics([]);
                   setFrom("");
                   setTo("");
-                  setPage(0);
+                  setPageTp(0);
+                  setPageFp(0);
                 }}
               >
                 <X className="h-4 w-4 mr-1" /> Clear
@@ -212,7 +221,7 @@ function AlertsPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {tps.map((a) => (
+                  {currentTps.map((a) => (
                     <AlertRow
                       key={a.id}
                       alert={a}
@@ -222,6 +231,32 @@ function AlertsPage() {
                   ))}
                 </tbody>
               </table>
+            </div>
+
+            <div className="flex items-center justify-between border-t border-red-500/20 px-4 py-3 text-xs text-red-500/70">
+              <div>
+                Page {pageTp + 1} of {totalPagesTp}
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={pageTp === 0}
+                  onClick={() => setPageTp((p) => Math.max(0, p - 1))}
+                  className="border-red-500/20 text-red-500 hover:bg-red-500/10"
+                >
+                  Previous
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={pageTp >= totalPagesTp - 1}
+                  onClick={() => setPageTp((p) => Math.min(totalPagesTp - 1, p + 1))}
+                  className="border-red-500/20 text-red-500 hover:bg-red-500/10"
+                >
+                  Next
+                </Button>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -269,22 +304,22 @@ function AlertsPage() {
 
           <div className="flex items-center justify-between border-t border-border px-4 py-3 text-xs text-muted-foreground">
             <div>
-              Page {page + 1} of {totalPages}
+              Page {pageFp + 1} of {totalPagesFp}
             </div>
             <div className="flex gap-2">
               <Button
                 variant="outline"
                 size="sm"
-                disabled={page === 0}
-                onClick={() => setPage((p) => Math.max(0, p - 1))}
+                disabled={pageFp === 0}
+                onClick={() => setPageFp((p) => Math.max(0, p - 1))}
               >
                 Previous
               </Button>
               <Button
                 variant="outline"
                 size="sm"
-                disabled={page >= totalPages - 1}
-                onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+                disabled={pageFp >= totalPagesFp - 1}
+                onClick={() => setPageFp((p) => Math.min(totalPagesFp - 1, p + 1))}
               >
                 Next
               </Button>
