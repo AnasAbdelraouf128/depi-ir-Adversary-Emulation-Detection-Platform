@@ -31,7 +31,9 @@ export default defineConfig({
           rewrite: (path) => path.replace(/^\/api\/manager/, ''),
           configure: (proxy, _options) => {
             proxy.on('proxyReq', (proxyReq, req, _res) => {
-              proxyReq.setHeader('Authorization', apiAuth);
+              if (req.url && req.url.includes('/security/user/authenticate')) {
+                proxyReq.setHeader('Authorization', apiAuth);
+              }
             });
           }
         },
