@@ -230,6 +230,22 @@ function classifySeverity(alert: Alert): {
   return { severity, rationale, confidence };
 }
 
+export function isTruePositive(alert: Alert): boolean {
+  // If Wazuh already flags it as high/critical, it's generally considered a true positive worth investigating
+  if (alert.severity === "critical" || alert.severity === "high") return true;
+  
+  // Use our AI heuristic engine for medium/low alerts
+  const cls = classifySeverity(alert);
+  
+  // If the heuristic promotes it to high/critical, flag it
+  if (cls.severity === "critical" || cls.severity === "high") return true;
+  
+  // If we have high confidence it's an attack (e.g. matches known MITRE technique with context hits)
+  if (cls.confidence > 0.70) return true;
+  
+  return false;
+}
+
 function mockTriage(alert: Alert): TriageReport {
   const base = alert.mitre.technique_id;
   const root = base.split(".")[0];

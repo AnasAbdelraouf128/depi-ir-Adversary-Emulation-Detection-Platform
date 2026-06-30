@@ -14,10 +14,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { DateTimePicker } from "@/components/ui/datetime-picker";
-import { ChevronDown, ChevronRight, Search, X } from "lucide-react";
+import { ChevronDown, ChevronRight, Search, X, ShieldAlert, ShieldCheck } from "lucide-react";
 import { format } from "date-fns";
 import { AttackChainView } from "@/components/AttackChainView";
 import { AiTriagePanel } from "@/components/ai/AiTriagePanel";
+import { isTruePositive } from "@/services/aiService";
 
 export const Route = createFileRoute("/alerts")({
   head: () => ({
@@ -69,8 +70,11 @@ function AlertsPage() {
     });
   }, [alerts, search, severities, agentIds, tactics, from, to]);
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
-  const current = filtered.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+  const tps = useMemo(() => filtered.filter(isTruePositive), [filtered]);
+  const fps = useMemo(() => filtered.filter(a => !isTruePositive(a)), [filtered]);
+
+  const totalPages = Math.max(1, Math.ceil(fps.length / PAGE_SIZE));
+  const currentFps = fps.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
 
   function toggle<T>(arr: T[], v: T, set: (next: T[]) => void) {
     set(arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v]);
@@ -85,7 +89,7 @@ function AlertsPage() {
       <div className="soc-rise">
         <h1 className="text-2xl font-semibold tracking-tight">Alerts</h1>
         <p className="text-sm text-muted-foreground">
-          {filtered.length} of {alerts.length} alerts
+          {tps.length} critical threats · {fps.length} noise alerts
         </p>
       </div>
 
@@ -182,7 +186,53 @@ function AlertsPage() {
         </CardContent>
       </Card>
 
-      <Card className="soc-card soc-rise soc-delay-2">
+      {tps.length > 0 && (
+        <Card className="soc-card soc-rise border-red-500/50 bg-red-500/5 shadow-[0_0_15px_rgba(239,68,68,0.1)]">
+          <div className="px-4 py-3 border-b border-red-500/20 bg-red-500/10">
+            <h3 className="text-red-500 font-semibold flex items-center gap-2">
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+              </span>
+              AI-Verified Threats (True Positives)
+            </h3>
+          </div>
+          <CardContent className="p-0">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead className="text-left text-xs uppercase text-red-500/70 bg-red-500/10">
+                  <tr>
+                    <th className="px-3 py-2 w-8"></th>
+                    <th className="px-3 py-2 font-medium">Time</th>
+                    <th className="px-3 py-2 font-medium">Severity</th>
+                    <th className="px-3 py-2 font-medium">Agent</th>
+                    <th className="px-3 py-2 font-medium">Rule</th>
+                    <th className="px-3 py-2 font-medium">MITRE</th>
+                    <th className="px-3 py-2 font-medium">Source IP</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {tps.map((a) => (
+                    <AlertRow
+                      key={a.id}
+                      alert={a}
+                      expanded={expanded === a.id}
+                      onToggle={() => setExpanded(expanded === a.id ? null : a.id)}
+                    />
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      <Card className="soc-card soc-rise soc-delay-2 opacity-80 hover:opacity-100 transition-opacity">
+        <div className="px-4 py-3 border-b border-border bg-muted/10">
+          <h3 className="text-muted-foreground font-semibold flex items-center gap-2">
+            Noise & False Positives
+          </h3>
+        </div>
         <CardContent className="p-0">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
@@ -198,7 +248,7 @@ function AlertsPage() {
                 </tr>
               </thead>
               <tbody>
-                {current.map((a) => (
+                {currentFps.map((a) => (
                   <AlertRow
                     key={a.id}
                     alert={a}
@@ -206,7 +256,7 @@ function AlertsPage() {
                     onToggle={() => setExpanded(expanded === a.id ? null : a.id)}
                   />
                 ))}
-                {current.length === 0 && (
+                {currentFps.length === 0 && (
                   <tr>
                     <td colSpan={7} className="px-4 py-10 text-center text-sm text-muted-foreground">
                       No alerts match the current filters.
