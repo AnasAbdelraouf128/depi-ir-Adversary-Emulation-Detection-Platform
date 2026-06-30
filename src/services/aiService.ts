@@ -231,17 +231,21 @@ function classifySeverity(alert: Alert): {
 }
 
 export function isTruePositive(alert: Alert): boolean {
-  // If Wazuh already flags it as high/critical, it's generally considered a true positive worth investigating
+  // If Wazuh already flags it as high/critical, it's a true positive worth investigating
   if (alert.severity === "critical" || alert.severity === "high") return true;
   
   // Use our AI heuristic engine for medium/low alerts
   const cls = classifySeverity(alert);
   
+  // Only promote alerts to True Positives if they are AT LEAST a medium severity (level 8+) in Wazuh originally.
+  // This prevents noisy level 5 rules (like a single failed SSH login) from being promoted just because they map to a dangerous MITRE technique.
+  if (alert.rule.level < 8) return false;
+
   // If the heuristic promotes it to high/critical, flag it
   if (cls.severity === "critical" || cls.severity === "high") return true;
   
-  // If we have high confidence it's an attack and it's at least a medium severity alert
-  if (cls.confidence > 0.85 && alert.rule.level >= 8) return true;
+  // If we have extremely high confidence it's an attack
+  if (cls.confidence > 0.85) return true;
   
   return false;
 }
