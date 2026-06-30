@@ -196,8 +196,8 @@ function AlertsPage() {
       </Card>
 
       {tps.length > 0 && (
-        <Card className="soc-card soc-rise border-red-500/50 bg-red-500/5 shadow-[0_0_15px_rgba(239,68,68,0.1)]">
-          <div className="px-4 py-3 border-b border-red-500/20 bg-red-500/10">
+        <Card className="soc-card soc-rise">
+          <div className="px-4 py-3 border-b border-border bg-muted/10">
             <h3 className="text-red-500 font-semibold flex items-center gap-2">
               <span className="relative flex h-3 w-3">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
@@ -209,7 +209,7 @@ function AlertsPage() {
           <CardContent className="p-0">
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
-                <thead className="text-left text-xs uppercase text-red-500/70 bg-red-500/10">
+                <thead className="text-left text-xs uppercase text-muted-foreground bg-muted/30">
                   <tr>
                     <th className="px-3 py-2 w-8"></th>
                     <th className="px-3 py-2 font-medium">Time</th>
@@ -233,7 +233,7 @@ function AlertsPage() {
               </table>
             </div>
 
-            <div className="flex items-center justify-between border-t border-red-500/20 px-4 py-3 text-xs text-red-500/70">
+            <div className="flex items-center justify-between border-t border-border px-4 py-3 text-xs text-muted-foreground">
               <div>
                 Page {pageTp + 1} of {totalPagesTp}
               </div>
@@ -243,7 +243,6 @@ function AlertsPage() {
                   size="sm"
                   disabled={pageTp === 0}
                   onClick={() => setPageTp((p) => Math.max(0, p - 1))}
-                  className="border-red-500/20 text-red-500 hover:bg-red-500/10"
                 >
                   Previous
                 </Button>
@@ -252,7 +251,6 @@ function AlertsPage() {
                   size="sm"
                   disabled={pageTp >= totalPagesTp - 1}
                   onClick={() => setPageTp((p) => Math.min(totalPagesTp - 1, p + 1))}
-                  className="border-red-500/20 text-red-500 hover:bg-red-500/10"
                 >
                   Next
                 </Button>
