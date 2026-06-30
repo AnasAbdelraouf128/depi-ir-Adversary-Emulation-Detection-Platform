@@ -5,6 +5,16 @@
 //     error logger plugins, and sandbox detection (port/host/strictPort).
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import dotenv from "dotenv";
+dotenv.config({ path: '.env.local' });
+
+const apiUser = process.env.VITE_WAZUH_API_USER || "";
+const apiPass = process.env.WAZUH_API_PASS || "";
+const apiAuth = `Basic ${Buffer.from(`${apiUser}:${apiPass}`).toString('base64')}`;
+
+const idxUser = process.env.VITE_WAZUH_INDEXER_USER || "";
+const idxPass = process.env.WAZUH_INDEXER_PASS || "";
+const idxAuth = `Basic ${Buffer.from(`${idxUser}:${idxPass}`).toString('base64')}`;
 
 export default defineConfig({
   tanstackStart: {
@@ -19,14 +29,8 @@ export default defineConfig({
           secure: false, // Bypasses Wazuh's self-signed certificate
           rewrite: (path) => path.replace(/^\/api\/manager/, ''),
           configure: (proxy, _options) => {
-            proxy.on('error', (err, _req, _res) => {
-              console.log('proxy error', err);
-            });
             proxy.on('proxyReq', (proxyReq, req, _res) => {
-              console.log('Sending Request to the Target:', req.method, req.url);
-            });
-            proxy.on('proxyRes', (proxyRes, req, _res) => {
-              console.log('Received Response from the Target:', proxyRes.statusCode, req.url);
+              proxyReq.setHeader('Authorization', apiAuth);
             });
           }
         },
@@ -34,7 +38,12 @@ export default defineConfig({
           target: 'https://54.83.241.104:9200',
           changeOrigin: true,
           secure: false, // Bypasses Indexer's self-signed certificate
-          rewrite: (path) => path.replace(/^\/api\/indexer/, '')
+          rewrite: (path) => path.replace(/^\/api\/indexer/, ''),
+          configure: (proxy, _options) => {
+            proxy.on('proxyReq', (proxyReq, req, _res) => {
+              proxyReq.setHeader('Authorization', idxAuth);
+            });
+          }
         }
       }
     }

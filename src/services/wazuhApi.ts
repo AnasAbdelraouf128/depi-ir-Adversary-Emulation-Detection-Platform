@@ -22,8 +22,6 @@
  * so the UI renders cleanly with "no data yet" instead of crashing.
  */
 
-import { MOCK_AGENTS, MOCK_ALERTS } from "./mockWazuhData";
-
 export type Severity = "critical" | "high" | "medium" | "low";
 
 export interface Agent {
@@ -76,19 +74,17 @@ export interface AlertFilters {
 
 let API_URL = (import.meta.env.VITE_WAZUH_API_URL ?? "").replace(/\/+$/, "");
 const API_USER = import.meta.env.VITE_WAZUH_API_USER ?? "";
-const API_PASS = import.meta.env.VITE_WAZUH_API_PASS ?? "";
 
 let IDX_URL = (import.meta.env.VITE_WAZUH_INDEXER_URL ?? "").replace(/\/+$/, "");
 const IDX_USER = import.meta.env.VITE_WAZUH_INDEXER_USER ?? "";
-const IDX_PASS = import.meta.env.VITE_WAZUH_INDEXER_PASS ?? "";
 
 if (typeof window === "undefined") {
   if (API_URL.startsWith("/")) API_URL = "http://127.0.0.1:8081" + API_URL;
   if (IDX_URL.startsWith("/")) IDX_URL = "http://127.0.0.1:8081" + IDX_URL;
 }
 
-export const WAZUH_API_CONFIGURED = Boolean(API_URL && API_USER && API_PASS);
-export const WAZUH_INDEXER_CONFIGURED = Boolean(IDX_URL && IDX_USER && IDX_PASS);
+export const WAZUH_API_CONFIGURED = Boolean(API_URL && API_USER);
+export const WAZUH_INDEXER_CONFIGURED = Boolean(IDX_URL && IDX_USER);
 export const WAZUH_MANAGER_URL = API_URL || "not configured";
 
 console.log("Wazuh API Configured:", WAZUH_API_CONFIGURED, API_URL);
@@ -110,9 +106,7 @@ async function getJwt(): Promise<string> {
   jwtPromise = (async () => {
     const r = await fetch(`${API_URL}/security/user/authenticate?raw=true`, {
       method: "POST",
-      headers: {
-        Authorization: "Basic " + btoa(`${API_USER}:${API_PASS}`),
-      },
+      // Authorization header is now securely injected by the Node.js reverse proxy
     });
     if (!r.ok) throw new Error(`Wazuh auth failed (${r.status})`);
     const text = await r.text();
@@ -176,7 +170,7 @@ function mapAgent(it: WzAgentItem): Agent {
 
 /** GET /agents */
 export async function getAgents(): Promise<Agent[]> {
-  if (!WAZUH_API_CONFIGURED) return MOCK_AGENTS;
+  if (!WAZUH_API_CONFIGURED) throw new Error("Wazuh API is not configured");
   const d = await apiGet<{ data: { affected_items: WzAgentItem[] } }>(
     "/agents?pretty=true",
   );
@@ -247,7 +241,7 @@ async function indexerSearch(body: unknown): Promise<WzAlertHit[]> {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Basic " + btoa(`${IDX_USER}:${IDX_PASS}`),
+      // Authorization header is securely injected by the reverse proxy
     },
     body: JSON.stringify(body),
   });
@@ -258,7 +252,7 @@ async function indexerSearch(body: unknown): Promise<WzAlertHit[]> {
 
 /** Convenience: most recent alerts (last 7 days, up to 1000). */
 export async function getAllAlerts(): Promise<Alert[]> {
-  if (!WAZUH_INDEXER_CONFIGURED) return MOCK_ALERTS;
+  if (!WAZUH_INDEXER_CONFIGURED) throw new Error("Wazuh Indexer is not configured");
   const hits = await indexerSearch({
     size: 1000,
     sort: [{ "@timestamp": { order: "desc" } }],
