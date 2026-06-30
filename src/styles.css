@@ -1,0 +1,361 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system definition.
+ *
+ * The @theme inline block maps CSS custom properties to Tailwind utility
+ * classes (e.g. --color-primary -> bg-primary, text-primary).
+ *
+ * The :root and .dark blocks define the actual color values using oklch.
+ * All colors MUST use oklch format.
+ *
+ * To add a new semantic color:
+ * 1. Add the variable to :root (light value) and .dark (dark value)
+ * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.625rem;
+  /* SOC dark theme — deep navy + cyan accents */
+  --background: oklch(0.16 0.03 255);
+  --foreground: oklch(0.96 0.01 240);
+  --card: oklch(0.21 0.035 258);
+  --card-foreground: oklch(0.96 0.01 240);
+  --popover: oklch(0.21 0.035 258);
+  --popover-foreground: oklch(0.96 0.01 240);
+  --primary: oklch(0.75 0.16 220);
+  --primary-foreground: oklch(0.14 0.03 258);
+  --secondary: oklch(0.27 0.04 258);
+  --secondary-foreground: oklch(0.96 0.01 240);
+  --muted: oklch(0.25 0.035 258);
+  --muted-foreground: oklch(0.7 0.03 250);
+  --accent: oklch(0.62 0.18 235);
+  --accent-foreground: oklch(0.14 0.03 258);
+  --destructive: oklch(0.62 0.24 27);
+  --destructive-foreground: oklch(0.98 0.01 240);
+  --border: oklch(0.3 0.04 258);
+  --input: oklch(0.28 0.04 258);
+  --ring: oklch(0.62 0.18 235);
+  --severity-critical: oklch(0.6 0.26 22);
+  --severity-high: oklch(0.72 0.2 45);
+  --severity-medium: oklch(0.82 0.17 90);
+  --severity-low: oklch(0.65 0.1 230);
+  --chart-1: oklch(0.7 0.18 220);
+  --chart-2: oklch(0.72 0.2 45);
+  --chart-3: oklch(0.6 0.26 22);
+  --chart-4: oklch(0.82 0.17 90);
+  --chart-5: oklch(0.65 0.18 280);
+  --sidebar: oklch(0.18 0.03 258);
+  --sidebar-foreground: oklch(0.92 0.01 240);
+  --sidebar-primary: oklch(0.62 0.18 235);
+  --sidebar-primary-foreground: oklch(0.14 0.03 258);
+  --sidebar-accent: oklch(0.25 0.04 258);
+  --sidebar-accent-foreground: oklch(0.96 0.01 240);
+  --sidebar-border: oklch(0.28 0.04 258);
+  --sidebar-ring: oklch(0.62 0.18 235);
+}
+
+.dark {
+  --background: oklch(0.129 0.042 264.695);
+  --foreground: oklch(0.984 0.003 247.858);
+  --card: oklch(0.208 0.042 265.755);
+  --card-foreground: oklch(0.984 0.003 247.858);
+  --popover: oklch(0.208 0.042 265.755);
+  --popover-foreground: oklch(0.984 0.003 247.858);
+  --primary: oklch(0.929 0.013 255.508);
+  --primary-foreground: oklch(0.208 0.042 265.755);
+  --secondary: oklch(0.279 0.041 260.031);
+  --secondary-foreground: oklch(0.984 0.003 247.858);
+  --muted: oklch(0.279 0.041 260.031);
+  --muted-foreground: oklch(0.704 0.04 256.788);
+  --accent: oklch(0.279 0.041 260.031);
+  --accent-foreground: oklch(0.984 0.003 247.858);
+  --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(0.984 0.003 247.858);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.551 0.027 264.364);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.208 0.042 265.755);
+  --sidebar-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-accent: oklch(0.279 0.041 260.031);
+  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.551 0.027 264.364);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+}
+
+/* -- SOC motion + effects ----------------------------------------------- */
+
+@keyframes soc-rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes soc-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes soc-sweep {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+@keyframes soc-glow-critical {
+  0%, 100% { opacity: 0.45; box-shadow: 0 0 0 0 color-mix(in oklab, var(--severity-critical) 35%, transparent); }
+  50%      { opacity: 1;    box-shadow: 0 0 14px 2px color-mix(in oklab, var(--severity-critical) 45%, transparent); }
+}
+@keyframes soc-scan {
+  0%   { transform: translateY(-100%); opacity: 0; }
+  20%  { opacity: 0.6; }
+  100% { transform: translateY(100%); opacity: 0; }
+}
+@keyframes soc-dash {
+  to { stroke-dashoffset: -14; }
+}
+
+@keyframes soc-grid-drift {
+  0%   { background-position: 0 0, 0 0; }
+  100% { background-position: 80px 80px, 80px 80px; }
+}
+@keyframes soc-scanline {
+  0%   { transform: translateY(-10%); opacity: 0; }
+  10%  { opacity: 0.5; }
+  100% { transform: translateY(110%); opacity: 0; }
+}
+@keyframes soc-pulse-rail {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 1; }
+}
+@keyframes soc-packet {
+  0%   { stroke-dashoffset: 40; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@utility soc-rise {
+  opacity: 0;
+  animation: soc-rise 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@utility soc-fade {
+  opacity: 0;
+  animation: soc-fade 0.6s ease-out forwards;
+}
+
+/* Animated SOC backdrop — drifting grid + faint scanline */
+@utility soc-backdrop {
+  position: relative;
+  isolation: isolate;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      linear-gradient(to right, color-mix(in oklab, var(--primary) 7%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in oklab, var(--primary) 7%, transparent) 1px, transparent 1px);
+    background-size: 40px 40px, 40px 40px;
+    mask-image: radial-gradient(ellipse at 50% 0%, black 0%, black 40%, transparent 80%);
+    animation: soc-grid-drift 40s linear infinite;
+    opacity: 0.5;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(ellipse 600px 300px at 20% 0%, color-mix(in oklab, var(--primary) 12%, transparent), transparent 70%),
+                radial-gradient(ellipse 500px 280px at 90% 10%, color-mix(in oklab, var(--accent) 10%, transparent), transparent 70%);
+  }
+}
+
+/* Severity rail for table rows */
+@utility soc-rail-critical {
+  box-shadow: inset 3px 0 0 0 var(--severity-critical);
+  background: linear-gradient(to right, color-mix(in oklab, var(--severity-critical) 8%, transparent), transparent 30%);
+  animation: soc-pulse-rail 2.4s ease-in-out infinite;
+}
+@utility soc-rail-high {
+  box-shadow: inset 3px 0 0 0 var(--severity-high);
+  background: linear-gradient(to right, color-mix(in oklab, var(--severity-high) 7%, transparent), transparent 30%);
+}
+
+/* SVG animated dashed packet flow */
+@utility soc-packet-path {
+  stroke-dasharray: 6 6;
+  animation: soc-packet 1.2s linear infinite;
+}
+@utility soc-glow-critical {
+  position: relative;
+}
+.soc-glow-critical::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  animation: soc-glow-critical 2.4s ease-in-out infinite;
+}
+
+/* Staggered entrance delays — apply alongside .soc-rise */
+@utility soc-delay-1 { animation-delay: 60ms; }
+@utility soc-delay-2 { animation-delay: 120ms; }
+@utility soc-delay-3 { animation-delay: 180ms; }
+@utility soc-delay-4 { animation-delay: 240ms; }
+@utility soc-delay-5 { animation-delay: 300ms; }
+@utility soc-delay-6 { animation-delay: 360ms; }
+@utility soc-delay-7 { animation-delay: 420ms; }
+
+/* Card hover: subtle lift + accent border */
+@utility soc-card {
+  transition:
+    border-color 220ms ease,
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    background-color 220ms ease;
+  &:hover {
+    border-color: color-mix(in oklab, var(--primary) 45%, var(--border));
+    transform: translateY(-1px);
+    box-shadow: 0 6px 24px -12px color-mix(in oklab, var(--primary) 40%, transparent);
+  }
+}
+
+/* Table row hover: left accent rail slides in */
+@utility soc-row {
+  position: relative;
+  transition: background-color 180ms ease;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 2px;
+    background: var(--primary);
+    transform: scaleY(0);
+    transform-origin: center;
+    transition: transform 220ms ease;
+  }
+  &:hover { background: color-mix(in oklab, var(--primary) 6%, transparent); }
+  &:hover::before { transform: scaleY(1); }
+}
+
+/* Sweep shimmer overlay (use inside a relative+overflow-hidden parent) */
+@utility soc-sweep {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent 30%,
+    color-mix(in oklab, var(--primary) 14%, transparent) 50%,
+    transparent 70%
+  );
+  animation: soc-sweep 1.6s ease-out forwards;
+}
+
+/* Status dot — pulsing ring */
+@utility soc-pulse-dot {
+  position: relative;
+  display: inline-flex;
+  height: 0.5rem;
+  width: 0.5rem;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background: currentColor;
+    opacity: 0.5;
+    animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .soc-rise, .soc-fade, .soc-glow-critical,
+  .soc-delay-1, .soc-delay-2, .soc-delay-3, .soc-delay-4,
+  .soc-delay-5, .soc-delay-6, .soc-delay-7 {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+  .soc-card:hover { transform: none; }
+}
+
+/* Polished datetime input — themed picker indicator + tabular nums */
+@utility soc-datetime {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+  color-scheme: dark;
+  &::-webkit-calendar-picker-indicator {
+    filter: invert(0.85) sepia(1) saturate(5) hue-rotate(160deg);
+    opacity: 0.7;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+  }
+  &::-webkit-calendar-picker-indicator:hover { opacity: 1; }
+  &::-webkit-datetime-edit { padding: 0; }
+  &::-webkit-datetime-edit-fields-wrapper { color: var(--foreground); }
+  &::-webkit-datetime-edit-text { color: color-mix(in oklab, var(--muted-foreground) 80%, transparent); padding: 0 2px; }
+}
