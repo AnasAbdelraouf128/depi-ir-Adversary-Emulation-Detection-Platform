@@ -176,6 +176,7 @@ function Overview() {
                     borderRadius: 8,
                     fontSize: 12,
                   }}
+                  itemStyle={{ color: "var(--foreground)" }}
                 />
                 <Area
                   type="monotone"
@@ -216,6 +217,7 @@ function Overview() {
                     borderRadius: 8,
                     fontSize: 12,
                   }}
+                  itemStyle={{ color: "var(--foreground)" }}
                 />
               </PieChart>
             </ResponsiveContainer>

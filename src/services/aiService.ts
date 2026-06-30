@@ -383,15 +383,18 @@ export async function generateDailyBriefing(
     content:
       "You are the lead SOC analyst writing the daily executive briefing. Be concise, professional, decision-focused. Reply strictly as JSON with keys: headline, trends (string[]), topIncidents (string[]), recommendations (string[]).",
   };
-  const condensed = windowAlerts.map((a) => ({
-    t: a.timestamp,
-    sev: a.severity,
-    agent: a.agent.name,
-    rule: a.rule.description,
-    mitre: a.mitre.technique_id,
-    tactic: a.mitre.tactic,
-    src: a.source_ip,
-  }));
+  const condensed = windowAlerts
+    .sort((a, b) => b.rule.level - a.rule.level)
+    .slice(0, 20)
+    .map((a) => ({
+      t: a.timestamp,
+      sev: a.severity,
+      agent: a.agent.name,
+      rule: a.rule.description,
+      mitre: a.mitre.technique_id,
+      tactic: a.mitre.tactic,
+      src: a.source_ip,
+    }));
   const user: ChatMessage = {
     role: "user",
     content: `Window: last ${windowHours}h. Alerts:\n${JSON.stringify(condensed)}`,

@@ -35,9 +35,13 @@ To provide a sleek, modern, and focused view of our security posture, we built a
   - Interactive MITRE ATT&CK coverage matrix.
   - AI Assistant for log summarization.
 
-*(Please add your SentinelView GUI screenshots here:)*
-- `![Dashboard Overview](docs/assets/gui_dashboard.png)`
-- `![AI Assistant](docs/assets/gui_ai.png)`
+*(SentinelView GUI Showcase:)*
+![GUI View 1](docs/assets/gui_1.png)
+![GUI View 2](docs/assets/gui_2.png)
+![GUI View 3](docs/assets/gui_3.png)
+![GUI View 4](docs/assets/gui_4.png)
+![GUI View 5](docs/assets/gui_5.png)
+![GUI View 6](docs/assets/gui_6.png)
 
 ---
 
