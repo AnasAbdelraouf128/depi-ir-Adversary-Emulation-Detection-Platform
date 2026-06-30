@@ -5,15 +5,16 @@
 //     error logger plugins, and sandbox detection (port/host/strictPort).
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
-import dotenv from "dotenv";
-dotenv.config({ path: '.env.local' });
+import { loadEnv } from "vite";
 
-const apiUser = process.env.VITE_WAZUH_API_USER || "";
-const apiPass = process.env.WAZUH_API_PASS || "";
+const env = loadEnv(process.env.NODE_ENV || 'development', process.cwd(), '');
+
+const apiUser = env.VITE_WAZUH_API_USER || "";
+const apiPass = env.WAZUH_API_PASS || "";
 const apiAuth = `Basic ${Buffer.from(`${apiUser}:${apiPass}`).toString('base64')}`;
 
-const idxUser = process.env.VITE_WAZUH_INDEXER_USER || "";
-const idxPass = process.env.WAZUH_INDEXER_PASS || "";
+const idxUser = env.VITE_WAZUH_INDEXER_USER || "";
+const idxPass = env.WAZUH_INDEXER_PASS || "";
 const idxAuth = `Basic ${Buffer.from(`${idxUser}:${idxPass}`).toString('base64')}`;
 
 export default defineConfig({
