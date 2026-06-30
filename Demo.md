@@ -15,7 +15,7 @@ The project is split into three main components:
 
 The Wazuh Manager was deployed on a dedicated AWS EC2 `t3.medium` instance. 
 
-1. **Provisioning:** An Elastic IP (`54.83.241.104`) was attached to ensure a static routing address for the agents.
+1. **Provisioning:** An Elastic IP (`XX.XX.XX.XX`) was attached to ensure a static routing address for the agents.
 2. **Installation:** We utilized the Wazuh Quickstart deployment script to spin up the Wazuh Indexer, Manager, and Dashboard.
    ```bash
    curl -sO https://packages.wazuh.com/4.7/wazuh-install.sh && sudo bash ./wazuh-install.sh -a
@@ -42,6 +42,8 @@ To provide a sleek, modern, and focused view of our security posture, we built a
 ![GUI View 4](docs/assets/gui_4.png)
 ![GUI View 5](docs/assets/gui_5.png)
 ![GUI View 6](docs/assets/gui_6.png)
+![GUI View 7](docs/assets/gui_7.png)
+![GUI View 8](docs/assets/gui_8.png)
 
 ---
 
@@ -49,7 +51,7 @@ To provide a sleek, modern, and focused view of our security posture, we built a
 
 ### 🐧 1. Linux Endpoint (Ubuntu)
 - Installed the Wazuh Agent via APT.
-- Configured `/var/ossec/etc/ossec.conf` to point to the AWS Elastic IP.
+- Configured `/var/ossec/etc/ossec.conf` to point to the AWS Elastic IP (`XX.XX.XX.XX`).
 
 ![Ubuntu Agent Configuration](docs/assets/Youssef_step_4.png)
 
@@ -80,22 +82,43 @@ To provide a sleek, modern, and focused view of our security posture, we built a
 
 This project was a collaborative effort, with the architecture securely partitioned into specialized roles:
 
-### 👑 Team Lead & Architect (You)
-- **Infrastructure:** Provisioned the AWS EC2 instance, managed the Elastic IP routing, and deployed the Wazuh Central Manager.
+### 1. Cloud Engineers (Hazem & Abdelrahman)
+- Create AWS Account & Launch EC2 (Ubuntu).
+- Install Wazuh Stack & Configure Wazuh Manager.
+- Assign Static IP (Elastic IP) & Open Required Ports.
+- Ensure Manager is Online & Verify Agents Connection.
 ![AWS Setup](docs/assets/AWS_step_1.png)
-- **Frontend Engineering:** Designed and built the custom **SentinelView** React dashboard from scratch.
-- **SIEM Tuning:** Purged 14,000+ noisy Systemd alerts from the Indexer.
 
-### 🐧 Linux Security Engineer (Youssef)
-- **Endpoint Setup:** Provisioned and secured the Ubuntu Virtual Machine.
-- **Threat Simulation:** Acted as the Red Team by successfully executing Linux-based attacks (SSH Brute Force & Persistence).
+### 2. Linux Victim (Youssef)
+- Create Ubuntu VM & Install Wazuh Agent.
+- Connect to Manager (via Static IP).
+- Install Atomic Red Team (Linux).
+- Run MITRE ATT&CK Tests.
+- Verify Sysmon/auditd Logs & Ensure Logs are Sent.
 ![Youssef Workflow](docs/assets/Youssef_step_7.png)
 
-### 🪟 Windows Security Engineer (Masoud)
-- **Endpoint Setup:** Provisioned the Windows 11 Virtual Machine.
-- **Deep Visibility:** Successfully deployed and configured **Sysmon**.
-- **Threat Simulation:** Executed advanced Windows-based attacks (Obfuscated PowerShell & LSASS Dumping).
+### 3. Windows Victim (Masoud)
+- Create Windows 11 VM & Install Wazuh Agent.
+- Connect to Manager (via Static IP).
+- Install Sysmon & Atomic Red Team (Windows).
+- Run MITRE ATT&CK Tests & Ensure Logs are Sent.
 ![Masoud Workflow](docs/assets/Masoud_step_14.png)
+
+### 4. Rules Engineer (Anas)
+- SSH to Wazuh Manager.
+- Analyze Logs & Events & Create Custom Rules.
+- Map to MITRE ATT&CK & Test Rules with New Events.
+- Fine-tune & Optimize & Ensure Alerts are Generated.
+
+### 5. GUI Developers (Adham & Anas)
+- Build React Dashboard (Local).
+- Connect to Wazuh API & Fetch Alerts & Agents Data.
+- Show Charts & Statistics, Filters, Search, Timeline & Export Reports (PDF/CSV).
+
+### 6. Collaboration (All Team)
+- Regular Meetings & Share Findings.
+- Document Everything & Prepare Final Report.
+- Final Presentation & Demo.
 
 ---
 
