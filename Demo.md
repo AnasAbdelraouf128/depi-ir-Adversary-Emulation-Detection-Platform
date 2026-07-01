@@ -97,7 +97,7 @@ This project was a collaborative effort, with the architecture securely partitio
 - Verify Sysmon/auditd Logs & Ensure Logs are Sent.
 ![Youssef Workflow](docs/assets/Youssef_step_7.png)
 
-### 3. Windows Victim (Masoud)
+### 3. Windows Victim (Alsafy)
 - Create Windows 11 VM & Install Wazuh Agent.
 - Connect to Manager (via Static IP).
 - Install Sysmon & Atomic Red Team (Windows).
