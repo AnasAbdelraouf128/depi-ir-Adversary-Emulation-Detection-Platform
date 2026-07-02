@@ -254,7 +254,7 @@ async function indexerSearch(body: unknown): Promise<WzAlertHit[]> {
 export async function getAllAlerts(): Promise<Alert[]> {
   if (!WAZUH_INDEXER_CONFIGURED) throw new Error("Wazuh Indexer is not configured");
   const hits = await indexerSearch({
-    size: 1000,
+    size: 10000,
     sort: [{ "@timestamp": { order: "desc" } }],
     query: { 
       bool: {
