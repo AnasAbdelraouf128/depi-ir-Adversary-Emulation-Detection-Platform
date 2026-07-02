@@ -28,11 +28,21 @@ const SUGGESTIONS = [
 ];
 
 function AssistantPage() {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>(() => {
+    try {
+      const saved = sessionStorage.getItem("assistantMessages");
+      if (saved) return JSON.parse(saved);
+    } catch {}
+    return [];
+  });
   const [input, setInput] = useState("");
   const [pending, setPending] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    sessionStorage.setItem("assistantMessages", JSON.stringify(messages));
+  }, [messages]);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });

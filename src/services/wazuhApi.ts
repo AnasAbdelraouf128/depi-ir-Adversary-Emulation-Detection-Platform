@@ -202,7 +202,7 @@ interface WzAlertHit {
       groups?: string[];
       mitre?: { id?: string[]; technique?: string[]; tactic?: string[] };
     };
-    data?: { srcip?: string };
+    data?: { srcip?: string; [key: string]: any };
     full_log?: string;
     decoder?: { name?: string };
     location?: string;
@@ -229,7 +229,7 @@ function mapHit(h: WzAlertHit): Alert {
       tactic: s.rule?.mitre?.tactic?.[0] ?? "Unknown",
     },
     source_ip: s.data?.srcip,
-    full_log: s.full_log ?? "",
+    full_log: s.full_log || (s.data ? JSON.stringify(s.data, null, 2) : "(No raw log provided)"),
     decoder: s.decoder?.name,
     location: s.location,
   };

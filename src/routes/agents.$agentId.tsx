@@ -87,7 +87,7 @@ function AgentDetail() {
                 {agentAlerts.map((a) => (
                   <tr key={a.id} className="border-b border-border/50 hover:bg-muted/30">
                     <td className="px-4 py-2 text-xs text-muted-foreground whitespace-nowrap">
-                      {format(new Date(a.timestamp), "MMM d, HH:mm:ss")}
+                      {format(new Date(a.timestamp), "MMM d, hh:mm:ss a")}
                     </td>
                     <td className="px-4 py-2">
                       <span

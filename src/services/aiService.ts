@@ -132,28 +132,31 @@ const TECHNIQUE_RISK: Record<string, number> = {
   T1003: 85,
   // Execution / injection
   T1055: 78, // Process injection
-  "T1059.001": 70, // PowerShell
-  "T1059.003": 68, // cmd.exe
-  "T1059.004": 65, // Unix shell
-  T1059: 60,
+  "T1059.001": 85, // PowerShell
+  "T1059.003": 85, // cmd.exe
+  "T1059.004": 85, // Unix shell
+  T1059: 85,
   // Persistence / privilege escalation
   "T1547.001": 72, // Run keys
   "T1053.005": 70, // Scheduled task
   "T1053.003": 68, // cron
-  "T1548.003": 75, // sudo abuse
+  "T1548.003": 85, // sudo abuse
+  "T1136.001": 85, // local account creation
+  T1136: 85,
   T1134: 72, // Token manipulation
   // Defense evasion
   "T1070.004": 60, // File deletion
-  T1027: 55, // Obfuscation
+  T1027: 85, // Obfuscation
   // C2 / lateral
   "T1071.001": 70, // Web C2
-  T1105: 65, // Ingress tool transfer
+  T1105: 85, // Ingress tool transfer
   // Discovery (low impact on its own)
   T1082: 30,
   T1083: 28,
   T1016: 25,
   // Brute force
   "T1110.001": 60,
+  T1531: 95, // Account Access Removal / Logon Failure
 };
 
 const TACTIC_WEIGHT: Record<string, number> = {
@@ -237,9 +240,9 @@ export function isTruePositive(alert: Alert): boolean {
   // Use our AI heuristic engine for medium/low alerts
   const cls = classifySeverity(alert);
   
-  // Only promote alerts to True Positives if they are AT LEAST a medium severity (level 8+) in Wazuh originally.
-  // This prevents noisy level 5 rules (like a single failed SSH login) from being promoted just because they map to a dangerous MITRE technique.
-  if (alert.rule.level < 8) return false;
+  // Only promote alerts to True Positives if they are AT LEAST a low/medium severity (level 3+) in Wazuh originally.
+  // This prevents extremely noisy level 0-2 rules from being promoted just because they map to a dangerous MITRE technique.
+  if (alert.rule.level < 3) return false;
 
   // If the heuristic promotes it to high/critical, flag it
   if (cls.severity === "critical" || cls.severity === "high") return true;

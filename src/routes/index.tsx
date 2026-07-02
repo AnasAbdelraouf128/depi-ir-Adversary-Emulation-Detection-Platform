@@ -302,7 +302,7 @@ function Overview() {
         </Card>
       </div>
 
-      <DailyBriefingCard alerts={alerts} />
+      <DailyBriefingCard alerts={last24h} />
     </div>
   );
 }

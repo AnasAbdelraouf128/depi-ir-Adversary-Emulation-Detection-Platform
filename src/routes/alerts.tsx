@@ -394,7 +394,7 @@ function AlertRow({
           )}
         </td>
         <td className="px-3 py-2 text-xs text-muted-foreground whitespace-nowrap">
-          {format(new Date(alert.timestamp), "MMM d, HH:mm:ss")}
+          {format(new Date(alert.timestamp), "MMM d, hh:mm:ss a")}
         </td>
         <td className="px-3 py-2">
           <span

@@ -7,7 +7,8 @@ export function AiTriagePanel({ alert }: { alert: Alert }) {
   const { data, isLoading, isError, refetch, isFetching } = useQuery({
     queryKey: ["ai", "triage", alert.id],
     queryFn: () => translateAlert(alert),
-    staleTime: 5 * 60 * 1000,
+    staleTime: Infinity,
+    gcTime: Infinity,
     refetchOnWindowFocus: false,
   });
 
