@@ -93,6 +93,7 @@ const PLAIN_RULE_MAP: Record<string, string> = {
   T1105: "a new binary or tool was downloaded onto the host",
   T1486: "files were mass-encrypted — strong indicator of ransomware",
   "T1110.001": "many password guesses were attempted against an account",
+  T1531: "an attacker repeatedly failed to authenticate, indicating a brute-force, account access removal, or password spraying attempt",
 };
 
 const RECOMMENDATION_MAP: Record<Severity, (a: Alert) => string> = {
@@ -434,6 +435,11 @@ export async function generateDailyBriefing(
 // -- 3. Interactive SOC Assistant Chatbot --------------------------------
 
 const KB: Array<{ match: RegExp; answer: string }> = [
+  {
+    match: /T1531|logon failure|account access removal/i,
+    answer:
+      "**MITRE T1531 — Account Access Removal / Logon Failure** occurs when an attacker triggers repeated logon failures or actively attempts to lock out / remove access to an account. Wazuh logs this heavily on Windows as Event ID 4625 (Logon Failure).\n\n**Action:** Verify if this is an expected lockout due to a forgotten password, or if it is part of a brute-force or password spraying campaign (often mapped alongside T1110). If malicious, block the source IP and verify no successful subsequent logons (Event ID 4624) occurred for the targeted account.",
+  },
   {
     match: /T1110(\.001)?|brute[\s-]?force|password guess/i,
     answer:
