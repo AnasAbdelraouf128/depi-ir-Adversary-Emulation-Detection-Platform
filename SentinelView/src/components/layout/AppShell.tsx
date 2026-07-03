@@ -1,12 +1,27 @@
 import { Link, Outlet, useRouterState } from "@tanstack/react-router";
-import { Shield, LayoutDashboard, ServerCog, AlertTriangle, Target, FileText, Activity, Sparkles } from "lucide-react";
+import { Shield, LayoutDashboard, ServerCog, AlertTriangle, Target, FileText, Activity, Sparkles, Clock } from "lucide-react";
 import type { ReactNode } from "react";
+import { useState, useEffect } from "react";
 import {
   WAZUH_API_CONFIGURED,
   WAZUH_INDEXER_CONFIGURED,
   WAZUH_MANAGER_URL,
 } from "@/services/wazuhApi";
 import { CommandPalette } from "@/components/CommandPalette";
+
+function RealTimeClock() {
+  const [time, setTime] = useState(new Date());
+  useEffect(() => {
+    const timer = setInterval(() => setTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+  return (
+    <div className="flex items-center gap-1.5 font-mono text-[11px] text-muted-foreground bg-muted/30 px-2 py-1 rounded border border-border">
+      <Clock className="h-3 w-3 text-primary" />
+      {time.toLocaleTimeString("en-US", { hour12: true, hour: "numeric", minute: "2-digit", second: "2-digit" })}
+    </div>
+  );
+}
 
 const nav: Array<{ to: string; label: string; icon: ReactNode }> = [
   { to: "/", label: "Overview", icon: <LayoutDashboard className="h-4 w-4" /> },
@@ -100,6 +115,7 @@ export function AppShell() {
             </span>
           </div>
           <div className="hidden md:flex items-center gap-3 text-xs text-muted-foreground">
+            <RealTimeClock />
             <kbd className="hidden lg:inline-flex items-center gap-1 rounded border border-border bg-muted/40 px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">
               <span>⌘</span>K
             </kbd>
