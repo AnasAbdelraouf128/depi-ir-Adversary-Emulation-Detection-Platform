@@ -41,6 +41,7 @@ function Overview() {
   const { data: agents = [] } = useQuery({ queryKey: ["agents"], queryFn: getAgents });
 
   const now = Date.now();
+  const last24h = alerts.filter((a) => now - +new Date(a.timestamp) <= 24 * 3600 * 1000);
   const counts: Record<Severity, number> = { critical: 0, high: 0, medium: 0, low: 0 };
   alerts.forEach((a) => counts[a.severity]++);
 
