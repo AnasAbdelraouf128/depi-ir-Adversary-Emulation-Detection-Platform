@@ -41,9 +41,8 @@ function Overview() {
   const { data: agents = [] } = useQuery({ queryKey: ["agents"], queryFn: getAgents });
 
   const now = Date.now();
-  const last24h = alerts.filter((a) => now - +new Date(a.timestamp) <= 24 * 3600 * 1000);
   const counts: Record<Severity, number> = { critical: 0, high: 0, medium: 0, low: 0 };
-  last24h.forEach((a) => counts[a.severity]++);
+  alerts.forEach((a) => counts[a.severity]++);
 
   // 24h hourly buckets per severity (and total) for sparklines
   function hourly(predicate: (a: typeof alerts[number]) => boolean) {
@@ -103,7 +102,7 @@ function Overview() {
       <div className="soc-rise">
         <h1 className="text-2xl font-semibold tracking-tight">Overview</h1>
         <p className="text-sm text-muted-foreground">
-          Last 24 hours of SIEM activity across {agents.length} monitored endpoint
+          Last 7 days of SIEM activity across {agents.length} monitored endpoint
           {agents.length === 1 ? "" : "s"}.
         </p>
       </div>
@@ -111,8 +110,8 @@ function Overview() {
       <div className="grid grid-cols-2 gap-4 md:grid-cols-5">
         <StatCard
           icon={<Activity className="h-4 w-4" />}
-          label="Alerts (24h)"
-          value={last24h.length}
+          label="Total Alerts"
+          value={alerts.length}
           tone="primary"
           delay={1}
           spark={sparkAll}
