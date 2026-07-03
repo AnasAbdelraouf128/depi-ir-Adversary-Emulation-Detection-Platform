@@ -236,7 +236,7 @@ function classifySeverity(alert: Alert): {
 
 export function isTruePositive(alert: Alert): boolean {
   // If Wazuh already flags it as high/critical, it's a true positive worth investigating
-  if (alert.severity === "critical" || alert.severity === "high") return true;
+  if (alert.severity === "critical" || alert.severity === "high" || alert.rule.level >= 7) return true;
   
   // Use our AI heuristic engine for medium/low alerts
   const cls = classifySeverity(alert);
