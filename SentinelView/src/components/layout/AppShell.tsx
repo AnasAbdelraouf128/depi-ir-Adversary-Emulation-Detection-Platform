@@ -10,11 +10,19 @@ import {
 import { CommandPalette } from "@/components/CommandPalette";
 
 function RealTimeClock() {
+  const [mounted, setMounted] = useState(false);
   const [time, setTime] = useState(new Date());
+  
   useEffect(() => {
+    setMounted(true);
     const timer = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
+
+  if (!mounted) {
+    return <div className="h-6 w-24 bg-muted/30 rounded animate-pulse border border-transparent" />;
+  }
+
   return (
     <div className="flex items-center gap-1.5 font-mono text-[11px] text-muted-foreground bg-muted/30 px-2 py-1 rounded border border-border">
       <Clock className="h-3 w-3 text-primary" />
