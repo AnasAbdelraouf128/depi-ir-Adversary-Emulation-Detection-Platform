@@ -1,5 +1,5 @@
 <picture>
-  <img alt="Project Banner" src="./assets/banner.png" width="100%">
+  <img alt="Project Banner" src="./assets/WhatsApp Image 2026-07-05 at 11.28.08 PM" width="100%">
 </picture>
 
 # SentinelView: Custom Wazuh SIEM Dashboard & Agent Integration 🛡️
