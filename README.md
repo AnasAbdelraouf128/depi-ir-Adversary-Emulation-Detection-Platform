@@ -1,3 +1,9 @@
+<div align="center">
+  <img src="assets/SentinelView_Banner.jpeg" alt="SentinelView Banner" width="100%" />
+</div>
+
+<br/>
+
 # SentinelView: Custom Wazuh SIEM Dashboard & Agent Integration 🛡️
 
 SentinelView is a custom-built Security Information and Event Management (SIEM) dashboard powered by React, Vite, and the Wazuh API. This project demonstrates the complete end-to-end deployment of a Wazuh Manager on AWS, the integration of Windows and Linux endpoints, and the execution and detection of MITRE ATT&CK techniques.
